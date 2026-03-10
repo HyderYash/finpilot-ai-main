@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium scrollbars — global */
+:root {
+  --scrollbar-width: 10px;
+  --scrollbar-track: hsl(225 14% 6%);
+  --scrollbar-thumb: hsl(225 14% 22%);
+  --scrollbar-thumb-hover: hsl(225 14% 32%);
+  --scrollbar-thumb-active: hsl(217 91% 60% / 0.5);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 100px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 100px;
+  border: 3px solid var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
+
+@layer base {
+  :root {
+    --background: 228 14% 8%;
+    --foreground: 210 20% 95%;
+
+    --card: 228 14% 11%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 228 14% 11%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 225 14% 15%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 225 14% 15%;
+    --muted-foreground: 220 9% 55%;
+
+    --accent: 225 14% 18%;
+    --accent-foreground: 210 20% 95%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 14% 18%;
+    --input: 225 14% 18%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    --gain: 142 71% 45%;
+    --gain-foreground: 0 0% 100%;
+    --loss: 0 84% 60%;
+    --loss-foreground: 0 0% 100%;
+
+    --surface: 228 14% 6%;
+    --surface-foreground: 210 20% 95%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 38 80% 70%;
+
+    --sidebar-background: 228 14% 9%;
+    --sidebar-foreground: 220 9% 55%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 14% 15%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 225 14% 16%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  .card-glass {
+    @apply bg-card rounded-2xl border border-border/60 shadow-card;
+  }
+
+  .card-glass-hover {
+    @apply card-glass transition-all duration-300 hover:shadow-card-hover hover:border-border hover:bg-accent/50;
+  }
+
+  .text-gain {
+    color: hsl(var(--gain));
+  }
+
+  .text-loss {
+    color: hsl(var(--loss));
+  }
+
+  .bg-gain {
+    background-color: hsl(var(--gain));
+  }
+
+  .bg-loss {
+    background-color: hsl(var(--loss));
+  }
+
+  .bg-gain-subtle {
+    background-color: hsl(var(--gain) / 0.12);
+  }
+
+  .bg-loss-subtle {
+    background-color: hsl(var(--loss) / 0.12);
+  }
+
+  /* Hackathon hero & CTA */
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.18) 0%, hsl(262 83% 58% / 0.12) 50%, hsl(var(--primary) / 0.08) 100%);
+  }
+
+  .hero-glow {
+    box-shadow: 0 0 60px -12px hsl(var(--primary) / 0.35), 0 0 0 1px hsl(var(--primary) / 0.15);
+  }
+
+  .btn-cta-glow {
+    box-shadow: 0 4px 24px -2px hsl(var(--primary) / 0.5), 0 0 0 1px hsl(var(--primary) / 0.2);
+  }
+
+  .btn-cta-glow:hover {
+    box-shadow: 0 8px 32px -4px hsl(var(--primary) / 0.6), 0 0 0 1px hsl(var(--primary) / 0.3);
+  }
+
+  .badge-event {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(262 83% 58% / 0.15));
+    border: 1px solid hsl(var(--primary) / 0.3);
+  }
+}
