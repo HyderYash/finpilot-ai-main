@@ -33,7 +33,7 @@ function getStatusTickerMessages(context?: FinPilotContextData | null): string[]
   ];
   if (name) {
     return [
-      `Evaluating risk parameters for ${name}...`,
+      `Evaluating risk parameters for given stock...`,
       `Analyzing ${name} vs sector...`,
       "Checking 52-week volatility...",
       "Preparing a simple explanation...",
@@ -259,83 +259,83 @@ const AIChat = ({ currentContext: propContext }: AIChatProps) => {
       {/* Messages — centered column with max-width */}
       <div className="flex-1 overflow-auto">
         <div className="w-full p-4 md:p-6 lg:px-8 space-y-5">
-        {messages.map((msg, i) => (
-          <div key={i} className={cn("flex gap-3 animate-fade-in", msg.role === "user" ? "justify-end" : "")}>
-            {msg.role === "assistant" && (
-              <div className="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5 ring-1 ring-primary/20">
+          {messages.map((msg, i) => (
+            <div key={i} className={cn("flex gap-3 animate-fade-in", msg.role === "user" ? "justify-end" : "")}>
+              {msg.role === "assistant" && (
+                <div className="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5 ring-1 ring-primary/20">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                </div>
+              )}
+              <div
+                className={cn(
+                  "max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-card",
+                  msg.role === "user"
+                    ? "bg-primary text-primary-foreground rounded-br-md"
+                    : "bg-card border border-border/50 text-card-foreground rounded-bl-md"
+                )}
+              >
+                {msg.role === "user" ? (
+                  <span className="whitespace-pre-wrap">{msg.content}</span>
+                ) : (
+                  renderAssistantContent(msg.content)
+                )}
+              </div>
+              {msg.role === "user" && (
+                <div className="w-9 h-9 rounded-xl bg-muted flex items-center justify-center flex-shrink-0 mt-0.5 ring-1 ring-border/50">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                </div>
+              )}
+            </div>
+          ))}
+
+          {isTyping && (
+            <div className="flex gap-3 animate-fade-in">
+              <div className="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 ring-1 ring-primary/20">
                 <Sparkles className="w-4 h-4 text-primary" />
               </div>
-            )}
-            <div
-              className={cn(
-                "max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-card",
-                msg.role === "user"
-                  ? "bg-primary text-primary-foreground rounded-br-md"
-                  : "bg-card border border-border/50 text-card-foreground rounded-bl-md"
-              )}
-            >
-              {msg.role === "user" ? (
-                <span className="whitespace-pre-wrap">{msg.content}</span>
-              ) : (
-                renderAssistantContent(msg.content)
-              )}
-            </div>
-            {msg.role === "user" && (
-              <div className="w-9 h-9 rounded-xl bg-muted flex items-center justify-center flex-shrink-0 mt-0.5 ring-1 ring-border/50">
-                <User className="w-4 h-4 text-muted-foreground" />
-              </div>
-            )}
-          </div>
-        ))}
-
-        {isTyping && (
-          <div className="flex gap-3 animate-fade-in">
-            <div className="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 ring-1 ring-primary/20">
-              <Sparkles className="w-4 h-4 text-primary" />
-            </div>
-            <div className="bg-card border border-border/50 rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%] md:max-w-[75%] shadow-card">
-              <p className="text-xs text-muted-foreground mb-2 transition-opacity duration-300">
-                {statusMessages[statusIndex] ?? "FinPilot is thinking..."}
-              </p>
-              <div className="flex gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse-soft" />
-                <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse-soft [animation-delay:0.2s]" />
-                <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse-soft [animation-delay:0.4s]" />
+              <div className="bg-card border border-border/50 rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%] md:max-w-[75%] shadow-card">
+                <p className="text-xs text-muted-foreground mb-2 transition-opacity duration-300">
+                  {statusMessages[statusIndex] ?? "FinPilot is thinking..."}
+                </p>
+                <div className="flex gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse-soft" />
+                  <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse-soft [animation-delay:0.2s]" />
+                  <span className="w-2 h-2 rounded-full bg-primary/50 animate-pulse-soft [animation-delay:0.4s]" />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {error && (
-          <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 flex items-start gap-2">
-            <p className="text-sm text-destructive flex-1">{error}</p>
-            <button
-              type="button"
-              onClick={() => setError(null)}
-              className="text-destructive/70 hover:text-destructive text-xs font-medium shrink-0"
-              aria-label="Dismiss"
-            >
-              Dismiss
-            </button>
-          </div>
-        )}
-
-        {messages.length === 1 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {suggestions.map((q) => (
+          {error && (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 flex items-start gap-2">
+              <p className="text-sm text-destructive flex-1">{error}</p>
               <button
-                key={q}
-                onClick={() => handleSend(q)}
-                disabled={isTyping}
-                className="text-left text-sm p-3.5 rounded-xl border border-border/50 bg-card/50 text-muted-foreground hover:bg-accent hover:text-foreground hover:border-border transition-colors disabled:opacity-50 shadow-card"
+                type="button"
+                onClick={() => setError(null)}
+                className="text-destructive/70 hover:text-destructive text-xs font-medium shrink-0"
+                aria-label="Dismiss"
               >
-                {q}
+                Dismiss
               </button>
-            ))}
-          </div>
-        )}
+            </div>
+          )}
 
-        <div ref={bottomRef} />
+          {messages.length === 1 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {suggestions.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => handleSend(q)}
+                  disabled={isTyping}
+                  className="text-left text-sm p-3.5 rounded-xl border border-border/50 bg-card/50 text-muted-foreground hover:bg-accent hover:text-foreground hover:border-border transition-colors disabled:opacity-50 shadow-card"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div ref={bottomRef} />
         </div>
       </div>
 
