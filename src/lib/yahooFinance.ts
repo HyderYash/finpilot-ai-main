@@ -50,10 +50,7 @@ export interface YahooChartResponse {
 }
 
 const CHART_BASE =
-  import.meta.env.DEV
-    ? "/api/yahoo/v8/finance/chart"
-    : (import.meta.env.VITE_YAHOO_CHART_PROXY as string) ||
-      "https://query1.finance.yahoo.com/v8/finance/chart";
+  (import.meta.env.VITE_YAHOO_CHART_PROXY as string) || "/api/yahoo/v8/finance/chart";
 
 function getIntervalForRange(range: YahooChartRange): string {
   if (range === "1d" || range === "5d") return "1m";

@@ -65,11 +65,31 @@ FinPilot explains stocks, SIPs, and market concepts in simple language (includin
 
 Firebase is part of the Google ecosystem and scores under “Google Technologies.”
 
+**First-time setup (do this once):**
+
+1. Install the CLI and log in:
+   ```bash
+   npm install -g firebase-tools
+   firebase login
+   ```
+
+2. **Link a Firebase project** (required — the “No currently active project” error means this step wasn’t done):
+   ```bash
+   firebase use --add
+   ```
+   - Pick an existing project from the list, or create one at [Firebase Console](https://console.firebase.google.com/) first, then run `firebase use --add` again and select it.
+   - This creates a `.firebaserc` file with your project id (you can commit it so teammates use the same project).
+
+3. Build and deploy:
+   ```bash
+   npm run build
+   firebase deploy --only hosting
+   ```
+
+**Later deploys** (after project is set):
+
 ```bash
 npm run build
-npm install -g firebase-tools
-firebase login
-firebase init hosting   # choose existing project, set public directory to "dist", SPA: Yes — or skip if firebase.json exists)
 firebase deploy --only hosting
 ```
 
